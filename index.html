@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your Name | Portfolio</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/favicon.icon" />
+  </head>
+  <body>
+    <!-- HEADER with Navbar -->
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="index.html">
+            <img
+              src="assets/logo/logob.svg"
+              alt="Back Alley Logo"
+              class="logo-img"
+            />
+          </a>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#featured-works">Featured Works</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <!-- Mobile menu toggle button -->
+        <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+      <!-- Hero Section with GSAP animation targets -->
+      <section class="hero" id="home">
+        <div class="hero-content">
+          <h1 class="hero-title"><span class="highlight">Back Alley</span></h1>
+          <p class="hero-subtitle">Illustration & Design Studio</p>
+          <a href="#gallery" class="btn">View Portfolio</a>
+        </div>
+      </section>
+
+      <!-- Featured Works -->
+      <section id="featured-works" class="featured-works">
+        <h2>Featured Works</h2>
+        <div class="works-list">
+          <div class="work-item">
+            <img src="images/featured/project1.jpg" alt="Project 1" />
+            <h3>Brand Name 1</h3>
+            <p>Design & Development</p>
+          </div>
+          <!-- Add more projects as needed -->
+        </div>
+      </section>
+
+      <!-- Gallery with clickable images -->
+      <section class="gallery" id="gallery">
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <img src="images/gallery/image1.jpg" alt="Artwork 1" />
+          </div>
+          <div class="gallery-item">
+            <img src="images/gallery/image2.jpg" alt="Artwork 2" />
+          </div>
+          <div class="gallery-item">
+            <img src="images/gallery/image3.jpg" alt="Artwork 3" />
+          </div>
+          <div class="gallery-item">
+            <img src="images/gallery/image4.jpg" alt="Artwork 4" />
+          </div>
+          <div class="gallery-item">
+            <img src="images/gallery/image5.jpg" alt="Artwork 5" />
+          </div>
+          <div class="gallery-item">
+            <img src="images/gallery/image6.jpg" alt="Artwork 6" />
+          </div>
+          <div class="gallery-item">
+            <img src="images/gallery/image7.jpg" alt="Artwork 7" />
+          </div>
+          <div class="gallery-item">
+            <img src="images/gallery/image8.jpg" alt="Artwork 8" />
+          </div>
+          <div class="gallery-item">
+            <img src="images/gallery/image9.jpg" alt="Artwork 9" />
+          </div>
+          <div class="gallery-item">
+            <img src="images/gallery/image10.jpg" alt="Artwork 10" />
+          </div>
+          <!-- Add more gallery images -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+      <div class="footer-content">
+        <a href="mailto:adnan.syeef@yahoo.com" class="footer-btn">Contact Me</a>
+        <p>© 2025 Your Name. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Image Preview Modal (hidden by default) -->
+    <div id="image-preview" class="image-preview">
+      <span id="close-preview" aria-label="Close preview">&times;</span>
+      <img id="preview-img" src="" alt="Preview Image" />
+    </div>
+
+    <!-- GSAP libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Your main.js -->
+    <script src="js/main.js"></script>
+  </body>
+</html>
