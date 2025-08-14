@@ -5,11 +5,12 @@
   box-sizing: border-box;
 }
 
-body, html {
-  overflow: hidden; /* hide default scrollbar on body */
-  height: 100%;
-  background: #000;
+body {
+  overflow: auto; /* Ensure scrolling is enabled */
+  margin: 0;
+  padding: 0;
 }
+
 
 * Scrollable wrapper for all page content */
 .page-scroll {
@@ -19,7 +20,9 @@ body, html {
   scrollbar-width: none;     /* Firefox */
 }
 
-
+.page-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
 
 /* ---- Top fade overlay + navbar layering ---- */
 :root {
@@ -41,6 +44,7 @@ body::before {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
 }
 
+html, body { background: #000; }
 
 a {
   text-decoration: none;
@@ -443,4 +447,17 @@ footer {
 
 .footer-btn:hover {
   background-color: #111;
+}
+
+/* Apply to both html and body */
+html, body {
+  overflow: auto; /* keeps scrolling */
+  -ms-overflow-style: none;  /* IE & Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;  /* optional: avoids any visible track */
 }
