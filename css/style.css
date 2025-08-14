@@ -12,6 +12,11 @@ body {
   padding-top: 56px; /* or exact height of your navbar */
 }
 
+.top-shadow-overlay {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -32,24 +37,26 @@ ul {
   top: 0;
   width: 100vw;
   z-index: 999;
-  background: rgba(255, 255, 255, 0); /* semi-transparent background */
-  backdrop-filter: blur(10px); /* blur effect */
-  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  /*
+  background: rgba(255, 255, 255, 0); /* semi-transparent background 
+  backdrop-filter: blur(10px); /* blur effect 
+  -webkit-backdrop-filter: blur(10px); /* Safari support 
+  */
   transition: background-color 0.3s ease, padding 0.3s ease;
 }
 
 .navbar.scrolled {
-  background-color: hsla(0, 0%, 100%, 0.068);
-  padding: 0.8rem 2rem;
+  background-color: hsla(0, 100%, 50%, 0);
+  padding: 1rem 3rem;
 }
 
 /* LOGO */
 .logo-img {
-  height: 40px;
-  transition: transform 0.3s ease;
+  height: 60px;
+  transition: transform 0.3s ease-out;
 }
 .logo-img:hover {
-  transform: scale(1.05);
+  transform: scale(1.2);
 }
 
 /* NAV LINKS */

@@ -38,6 +38,7 @@
     </header>
 
     <!-- MAIN CONTENT -->
+
     <main>
       <!-- Hero Section with GSAP animation targets -->
       <section class="hero" id="home">
@@ -118,5 +119,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <!-- Your main.js -->
     <script src="js/main.js"></script>
+    <!-- Reload page from the top -->
+    <script>
+      window.onbeforeunload = function () {
+        window.scrollTo(0, 0);
+      };
+    </script>
+    <!-- Drop Shadow on top of the Page -->
+    <script>
+      window.addEventListener('scroll', () => {
+        const overlay = document.querySelector('.top-shadow-overlay');
+        overlay.style.opacity = window.scrollY > 0 ? 1 : 0;
+      });
+    </script>
   </body>
 </html>
