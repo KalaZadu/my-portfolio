@@ -22,6 +22,7 @@ ul {
 }
 
 /* NAVBAR BASE */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -31,7 +32,9 @@ ul {
   top: 0;
   width: 100vw;
   z-index: 999;
-  background-color: transparent;
+  background: rgba(255, 255, 255, 0); /* semi-transparent background */
+  backdrop-filter: blur(10px); /* blur effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
   transition: background-color 0.3s ease, padding 0.3s ease;
 }
 
