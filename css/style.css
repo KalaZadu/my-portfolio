@@ -26,7 +26,7 @@ ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 8rem;
+  padding: 2rem 4rem;
   position: fixed;
   top: 0;
   width: 100vw;
@@ -64,6 +64,7 @@ ul {
 }
 
 /* Hover underline animation */
+
 .nav-links li a::after {
   content: '';
   position: absolute;
@@ -82,6 +83,7 @@ ul {
 }
 
 /* Mobile menu toggle button */
+
 .menu-toggle {
   display: none;
   background: transparent;
@@ -106,6 +108,7 @@ ul {
 }
 
 /* Position each span vertically */
+
 .menu-toggle span:nth-child(1) {
   top: 0;
 }
@@ -134,6 +137,7 @@ ul {
 }
 
 /* HERO Section */
+
 .hero {
   display: flex;
   align-items: center;
@@ -159,6 +163,7 @@ ul {
 }
 
 /* Button style */
+
 .btn {
   display: inline-block;
   padding: 0.8rem 1.5rem;
@@ -173,6 +178,7 @@ ul {
 }
 
 /* Featured Works */
+
 .featured-works {
   padding: 4rem 2rem;
   text-align: center;
@@ -204,6 +210,7 @@ ul {
 }
 
 /* Gallery Styles */
+
 .gallery {
   max-width: 1600px;
   margin: 0 auto;
@@ -238,6 +245,7 @@ ul {
 }
 
 /* Image Preview Modal */
+
 .image-preview {
   position: fixed;
   top: 0;
@@ -261,8 +269,8 @@ ul {
 }
 
 .image-preview img {
-  max-width: 98%;
-  max-height: 98%;
+  max-width: 95%;
+  max-height: 95%;
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
   opacity: 0;
@@ -276,6 +284,7 @@ ul {
 }
 
 /* Close button */
+
 #close-preview {
   position: absolute;
   top: 20px;
@@ -290,7 +299,19 @@ ul {
 /* Responsive styles */
 
 /* Two columns 1024px - 601px */
+
 @media (max-width: 1024px) and (min-width: 601px) {
+  .image-preview img {
+    max-width: 95%;
+    max-height: 90%;
+  }
+  .navbar {
+    width: 100%;
+    padding: 1rem 2.5rem;
+  }
+  .navbar.scrolled {
+    padding: 0.8rem 1.5rem;
+  }
   .gallery-grid {
     column-count: 2;
     column-gap: 25px;
@@ -303,7 +324,15 @@ ul {
 }
 
 /* One column 600px and below */
+
 @media (max-width: 600px) {
+  .image-preview img {
+    max-width: 90%;
+    max-height: 90%;
+  }
+  .navbar.scrolled {
+    padding: 0.8rem 1rem;
+  }
   .gallery-grid {
     column-count: 1;
     column-gap: 0;
@@ -316,6 +345,7 @@ ul {
 }
 
 /* Mobile menu */
+
 @media (max-width: 768px) {
   .menu-toggle {
     display: flex;
@@ -343,7 +373,7 @@ ul {
 @media (max-width: 768px) {
   .navbar {
     width: 100%;
-    padding: 1rem 4rem;
+    padding: 0.8rem 1.5rem;
   }
 }
 
