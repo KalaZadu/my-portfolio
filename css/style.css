@@ -5,17 +5,42 @@
   box-sizing: border-box;
 }
 
-body {
-  background-color: #000000;
-  color: white;
-  font-family: Arial, sans-serif;
-  padding-top: 56px; /* or exact height of your navbar */
+body, html {
+  overflow: hidden; /* hide default scrollbar on body */
+  height: 100%;
+  background: #000;
 }
 
-.top-shadow-overlay {
-  opacity: 0;
-  transition: opacity 0.3s ease;
+* Scrollable wrapper for all page content */
+.page-scroll {
+  height: 100vh;        /* full viewport height */
+  overflow-y: scroll;   /* enable vertical scrolling */
+  -ms-overflow-style: none;  /* IE & Edge */
+  scrollbar-width: none;     /* Firefox */
 }
+
+
+
+/* ---- Top fade overlay + navbar layering ---- */
+:root {
+  /* tweak this to make the fade taller/shorter */
+  --top-fade-height: 80px;
+}
+
+/* The fade that sits above page content but below the navbar */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--top-fade-height);
+  pointer-events: none;
+  z-index: 950; /* below navbar (which we’ll set to 1000+) */
+  /* fade from dark to transparent; adjust alpha to taste */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
+}
+
 
 a {
   text-decoration: none;
@@ -28,26 +53,28 @@ ul {
 
 /* NAVBAR BASE */
 
+/* NAVBAR BASE */
 .navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999; /* above the top fade overlay */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2rem 4rem;
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  z-index: 999;
-  /*
-  background: rgba(255, 255, 255, 0); /* semi-transparent background 
-  backdrop-filter: blur(10px); /* blur effect 
-  -webkit-backdrop-filter: blur(10px); /* Safari support 
-  */
-  transition: background-color 0.3s ease, padding 0.3s ease;
+
+*/
+  /* smooth transitions */
+  transition: background-color 0.3s ease, padding 0.3s ease,
+    backdrop-filter 0.3s ease;
 }
 
+/* Darken a touch when scrolled for readability */
 .navbar.scrolled {
-  background-color: hsla(0, 100%, 50%, 0);
+  background: rgba(10, 10, 10, 0);
   padding: 1rem 3rem;
+
 }
 
 /* LOGO */
@@ -340,9 +367,11 @@ ul {
     max-width: 90%;
     max-height: 90%;
   }
+
   .navbar.scrolled {
-    padding: 0.8rem 1rem;
+    padding: 1em 1rem;
   }
+
   .gallery-grid {
     column-count: 1;
     column-gap: 0;
@@ -383,7 +412,7 @@ ul {
 @media (max-width: 768px) {
   .navbar {
     width: 100%;
-    padding: 0.8rem 1.5rem;
+    padding: 1.5rem 2rem;
   }
 }
 

@@ -58,8 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Lock scroll and compensate for scrollbar
     const scrollbarWidth = getScrollbarWidth();
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    document.querySelector('.page-scroll').style.overflow = 'hidden';
 
     // Animate nav links fade in
     gsap.fromTo(
