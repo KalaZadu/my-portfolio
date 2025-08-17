@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
     menuToggle.classList.add('open');
 
     const scrollbarWidth = getScrollbarWidth();
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open');
     document.body.style.paddingRight = `${scrollbarWidth}px`;
 
     gsap.fromTo(
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
     navLinksEl.classList.remove('active');
     menuToggle.classList.remove('open');
 
-    document.body.style.overflow = '';
+    document.body.classList.remove('modal-open');
     document.body.style.paddingRight = '';
   }
 
@@ -102,60 +102,41 @@ document.addEventListener('DOMContentLoaded', function () {
   const preview = document.getElementById('image-preview');
   const previewImg = document.getElementById('preview-img');
   const closeBtn = document.getElementById('close-preview');
-  const pageScrollWrapper = document.querySelector('.page-scroll'); // wrapper
 
   if (preview && previewImg && closeBtn) {
-    function getScrollbarWidth() {
-      return window.innerWidth - document.documentElement.clientWidth;
-    }
-
     function openPreview(imgSrc) {
       previewImg.src = imgSrc;
       preview.classList.add('show');
 
-      // Calculate scrollbar width dynamically
+      // Lock scroll without flick
       const scrollbarWidth = getScrollbarWidth();
       document.documentElement.style.setProperty(
         '--scrollbar-width',
         `${scrollbarWidth}px`
       );
-
-      // Lock body scroll
       document.body.classList.add('modal-open');
-
-      // Lock the page scroll wrapper (optional)
-      if (pageScrollWrapper) pageScrollWrapper.style.overflow = 'hidden';
     }
 
     function closePreview() {
       preview.classList.remove('show');
       previewImg.src = '';
-
-      // Unlock body scroll
       document.body.classList.remove('modal-open');
-
-      // Restore wrapper scroll
-      if (pageScrollWrapper) pageScrollWrapper.style.overflow = 'scroll';
     }
 
     // Open preview on image click
     document.querySelectorAll('.gallery-item img').forEach((img) => {
-      img.addEventListener('click', () => {
-        openPreview(img.src);
-      });
+      img.addEventListener('click', () => openPreview(img.src));
     });
 
     // Close preview on close button
-    closeBtn.addEventListener('click', () => {
-      closePreview();
-    });
+    closeBtn.addEventListener('click', closePreview);
 
-    // Close preview when clicking outside the image
+    // Close preview if clicking outside image
     preview.addEventListener('click', (e) => {
       if (e.target === preview) closePreview();
     });
 
-    // Optional: close with ESC key
+    // Close preview on ESC key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && preview.classList.contains('show'))
         closePreview();

@@ -79,10 +79,19 @@ body.no-scroll {
   display: none; /* Chrome, Safari, Opera */
 }
 
-/* ---------- Body locked during modal ---------- */
+/* ---------- Lock scroll during modal without flick ---------- */
 body.modal-open {
-  overflow: hidden; /* lock scroll */
-  padding-right: var(--scrollbar-width); /* prevent layout shift */
+  overflow: hidden; /* stops page scroll */
+  padding-right: var(--scrollbar-width, 0px); /* prevent layout shift */
+}
+
+/* optional: smooth modal fade */
+#image-preview {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#image-preview.show {
+  opacity: 1;
 }
 
 /* NAVBAR BASE */
