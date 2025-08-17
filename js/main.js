@@ -121,10 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Lock page scroll
       document.body.classList.add('modal-open');
-
-      if (pageScrollWrapper) pageScrollWrapper.style.overflow = 'hidden';
     }
-
     // Close preview function
 
     function closePreview() {
@@ -132,14 +129,13 @@ document.addEventListener('DOMContentLoaded', function () {
       previewImg.src = '';
 
       // Unlock scroll smoothly
-      if (pageScrollWrapper) pageScrollWrapper.style.overflowY = 'scroll';
-
-      // Trigger reflow to let transition apply
+      // Trigger reflow for smooth transition
       void document.body.offsetWidth;
 
       document.body.classList.remove('modal-open');
       document.documentElement.style.setProperty('--scrollbar-width', `0px`);
     }
+
     // Open preview on gallery image click
     document.querySelectorAll('.gallery-item img').forEach((img) => {
       img.addEventListener('click', () => {
