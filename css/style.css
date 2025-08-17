@@ -5,50 +5,20 @@
   box-sizing: border-box;
 }
 
-/* Apply to both html and body */
-html,
-body {
-  overflow-y: scroll; /* always reserve scrollbar space */
-}
-
-/* Hide scrollbar visually */
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  width: 12px; /* keep width to avoid layout jump */
-  background: transparent;
-}
-
-html::-webkit-scrollbar-thumb,
-body::-webkit-scrollbar-thumb {
-  background: transparent; /* thumb invisible */
-}
-
-html {
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: transparent transparent; /* thumb & track */
-}
-/* ---- Top fade overlay + navbar layering ---- */
 :root {
-  /* tweak this to make the fade taller/shorter */
-  --top-fade-height: 80px;
+  --scrollbar-w: 0px; /* for scrollbar compensation */
 }
 
-/* The fade that sits above page content but below the navbar */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--top-fade-height);
-  pointer-events: none;
-  z-index: 950; /* below navbar (which we’ll set to 1000+) */
-  /* fade from dark to transparent; adjust alpha to taste */
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
+/* When modal open */
+body.modal-open {
+  overflow: hidden !important;
+  padding-right: var(--scrollbar-w) !important;
 }
 
+/* Always reserve scrollbar space */
 html,
 body {
+  overflow-y: scroll;
   background: #000;
 }
 
@@ -61,62 +31,36 @@ ul {
   list-style: none;
 }
 
-/* Prevent scroll when preview active */
-body.no-scroll {
-  overflow: hidden;
-}
-
-/* ---------- Page Scroll Wrapper ---------- */
-
+/* Page Scroll Wrapper */
 .page-scroll {
-  height: 100vh; /* full viewport height */
-  overflow-y: scroll; /* normal scrolling */
-  -ms-overflow-style: none; /* IE & Edge */
-  scrollbar-width: none; /* Firefox */
+  height: 100vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-
 .page-scroll::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
-/* ---------- Lock scroll during modal without flick ---------- */
-body.modal-open {
-  overflow: hidden; /* stops page scroll */
-  padding-right: var(--scrollbar-width, 0px); /* prevent layout shift */
-}
-
-/* optional: smooth modal fade */
-#image-preview {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-#image-preview.show {
-  opacity: 1;
-}
-
-/* NAVBAR BASE */
+/* ---- Navbar ---- */
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 999; /* above the top fade overlay */
+  z-index: 999;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2rem 4rem;
-
-  /* smooth transitions */
   transition: background-color 0.3s ease, padding 0.3s ease,
     backdrop-filter 0.3s ease;
 }
-
-/* Darken a touch when scrolled for readability */
 .navbar.scrolled {
   background: rgba(10, 10, 10, 0);
   padding: 1rem 3rem;
 }
 
-/* LOGO */
+/* Logo */
 .logo-img {
   height: 60px;
   transition: transform 0.3s ease-out;
@@ -125,12 +69,11 @@ body.modal-open {
   transform: scale(1.2);
 }
 
-/* NAV LINKS */
+/* Nav links */
 .nav-links {
   display: flex;
   gap: 2rem;
 }
-
 .nav-links li a {
   font-size: 1rem;
   font-weight: 500;
@@ -138,9 +81,6 @@ body.modal-open {
   position: relative;
   transition: color 0.3s ease;
 }
-
-/* Hover underline animation */
-
 .nav-links li a::after {
   content: '';
   position: absolute;
@@ -158,8 +98,7 @@ body.modal-open {
   color: #e0e0e0;
 }
 
-/* Mobile menu toggle button */
-
+/* Mobile menu toggle */
 .menu-toggle {
   display: none;
   background: transparent;
@@ -167,79 +106,62 @@ body.modal-open {
   padding: 6px;
   cursor: pointer;
   position: relative;
-  width: 30px; /* fixed width for consistent alignment */
-  height: 24px; /* fixed height for spacing */
+  width: 30px;
+  height: 24px;
   z-index: 1001;
 }
-
 .menu-toggle span {
   display: block;
-  position: absolute; /* position absolutely within button */
+  position: absolute;
   width: 100%;
-  height: 3px; /* a bit thicker for better visibility */
+  height: 3px;
   background: #fff;
   border-radius: 2px;
   transition: transform 0.3s ease, opacity 0.3s ease;
   left: 0;
 }
-
-/* Position each span vertically */
-
 .menu-toggle span:nth-child(1) {
   top: 0;
 }
-
 .menu-toggle span:nth-child(2) {
   top: 10px;
 }
-
 .menu-toggle span:nth-child(3) {
   top: 20px;
 }
-
-/* When toggled open - create a clean cross */
 .menu-toggle.open span:nth-child(1) {
   transform: rotate(45deg);
-  top: 10px; /* center the rotated line */
+  top: 10px;
 }
-
 .menu-toggle.open span:nth-child(2) {
-  opacity: 0; /* hide middle line */
+  opacity: 0;
 }
-
 .menu-toggle.open span:nth-child(3) {
   transform: rotate(-45deg);
-  top: 10px; /* center the rotated line */
+  top: 10px;
 }
 
-/* HERO Section */
-
+/* Hero */
 .hero {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 90vh;
-  background: #000000;
+  background: #000;
   text-align: center;
   padding: 2rem;
 }
-
 .hero h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
 }
-
 .hero .highlight {
   color: #e63946;
 }
-
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 1.5rem;
 }
-
-/* Button style */
-
 .btn {
   display: inline-block;
   padding: 0.8rem 1.5rem;
@@ -248,51 +170,42 @@ body.modal-open {
   border-radius: 5px;
   transition: background 0.3s ease;
 }
-
 .btn:hover {
   background: #e63946;
 }
 
 /* Featured Works */
-
 .featured-works {
   padding: 4rem 2rem;
   text-align: center;
 }
-
 .featured-works h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
 }
-
 .works-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 2rem;
 }
-
 .work-item img {
   width: 100%;
   border-radius: 8px;
 }
-
 .work-item h3 {
   margin-top: 0.8rem;
   font-size: 1.2rem;
 }
-
 .work-item p {
   color: #555;
 }
 
-/* Gallery Styles */
-
+/* Gallery */
 .gallery {
   max-width: 1600px;
   margin: 0 auto;
   padding: 60px 5%;
 }
-
 .gallery-grid {
   column-count: 2;
   column-gap: 30px;
@@ -300,20 +213,17 @@ body.modal-open {
   margin: 0 auto;
   padding: 60px 5%;
 }
-
 .gallery-item {
   break-inside: avoid;
   margin-bottom: 30px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .gallery-item img {
   width: 100%;
   border-radius: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .gallery-item img:hover {
   transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -321,8 +231,7 @@ body.modal-open {
 }
 
 /* Image Preview Modal */
-
-.image-preview {
+#image-preview {
   position: fixed;
   top: 0;
   left: 0;
@@ -337,14 +246,12 @@ body.modal-open {
   transition: opacity 0.5s ease, visibility 0s linear 0.5s;
   z-index: 1000;
 }
-
-.image-preview.show {
+#image-preview.show {
   opacity: 1;
   visibility: visible;
   transition-delay: 0s;
 }
-
-.image-preview img {
+#image-preview img {
   max-width: 95%;
   max-height: 95%;
   border-radius: 8px;
@@ -353,14 +260,12 @@ body.modal-open {
   transform: scale(0.85);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
-
-.image-preview.show img {
+#image-preview.show img {
   opacity: 1;
   transform: scale(1);
 }
 
 /* Close button */
-
 #close-preview {
   position: absolute;
   top: 20px;
@@ -372,17 +277,13 @@ body.modal-open {
   z-index: 1010;
 }
 
-/* Responsive styles */
-
-/* Two columns 1024px - 601px */
-
+/* Responsive */
 @media (max-width: 1024px) and (min-width: 601px) {
-  .image-preview img {
+  #image-preview img {
     max-width: 95%;
     max-height: 90%;
   }
   .navbar {
-    width: 100%;
     padding: 1rem 2.5rem;
   }
   .navbar.scrolled {
@@ -393,37 +294,26 @@ body.modal-open {
     column-gap: 25px;
     padding: 60px 6%;
   }
-
   .gallery-item {
     margin-bottom: 25px;
   }
 }
-
-/* One column 600px and below */
-
 @media (max-width: 600px) {
-  .image-preview img {
+  #image-preview img {
     max-width: 90%;
     max-height: 90%;
   }
-
   .navbar.scrolled {
     padding: 1em 1rem;
   }
-
   .gallery-grid {
     column-count: 1;
-    column-gap: 0;
     padding: 40px 6%;
   }
-
   .gallery-item {
     margin-bottom: 20px;
   }
 }
-
-/* Mobile menu */
-
 @media (max-width: 768px) {
   .menu-toggle {
     display: flex;
@@ -446,11 +336,7 @@ body.modal-open {
   .nav-links li {
     margin: 14px 0;
   }
-}
-
-@media (max-width: 768px) {
   .navbar {
-    width: 100%;
     padding: 1.5rem 2rem;
   }
 }
@@ -459,17 +345,15 @@ body.modal-open {
 footer {
   text-align: center;
   padding: 2rem;
-  background: #000000;
+  background: #000;
   font-size: 0.9rem;
 }
-
 .footer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
 }
-
 .footer-btn {
   display: inline-block;
   padding: 0.7rem 1.4rem;
@@ -479,12 +363,6 @@ footer {
   font-weight: 500;
   transition: background 0.3s ease;
 }
-
 .footer-btn:hover {
   background-color: #111;
-}
-
-/* Prevent background scroll when preview is open */
-body.no-scroll {
-  overflow: hidden;
 }
