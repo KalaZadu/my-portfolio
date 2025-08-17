@@ -9,10 +9,19 @@
   --scrollbar-w: 0px; /* for scrollbar compensation */
 }
 
-/* When modal open */
+/* Prevent scrollbar from appearing while modal/menu is open */
 body.modal-open {
   overflow: hidden !important;
-  padding-right: var(--scrollbar-w) !important;
+  padding-right: var(--scrollbar-w, 0px);
+}
+
+/* Hide default scrollbars everywhere (so no white bar) */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+html {
+  scrollbar-width: none; /* Firefox */
 }
 
 /* Always reserve scrollbar space */

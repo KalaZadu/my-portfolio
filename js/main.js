@@ -2,26 +2,24 @@
 document.addEventListener('DOMContentLoaded', function () {
   // ---------- Helpers ----------
   function getRuntimeScrollbarWidth() {
-    // Measures the *current* scrollbar width so we can compensate padding
+    // Measures current scrollbar width
     return window.innerWidth - document.documentElement.clientWidth;
   }
 
   function setScrollLock(lock) {
-    // Write CSS variable first (prevents 1-frame flick)
+    // Write CSS variable first (prevents flick)
     const w = getRuntimeScrollbarWidth();
     document.documentElement.style.setProperty('--scrollbar-w', w + 'px');
 
-    // Lock/unlock body scroll without layout shift
     if (lock) {
       document.body.classList.add('modal-open');
     } else {
       document.body.classList.remove('modal-open');
-      // Safety: clear the var in case environment changes (not required)
       document.documentElement.style.removeProperty('--scrollbar-w');
     }
   }
 
-  // ---------- GSAP Hero Animations (kept) ----------
+  // ---------- GSAP Hero Animations ----------
   if (window.gsap) {
     try {
       if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -41,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function () {
     } catch (e) {}
   }
 
-  // ---------- Navbar scroll state (kept) ----------
+  // ---------- Navbar scroll state ----------
   const navbar = document.querySelector('.navbar');
   window.addEventListener('scroll', () => {
     if (!navbar) return;
     navbar.classList.toggle('scrolled', window.scrollY > 50);
   });
 
-  // ---------- Mobile menu (kept) ----------
+  // ---------- Mobile menu ----------
   const menuToggle = document.getElementById('menu-toggle');
   const navLinksEl = document.querySelector('.nav-links');
 
@@ -94,49 +92,38 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // ---------- Image Preview Modal (FIXED) ----------
+  // ---------- Image Preview Modal ----------
   const preview = document.getElementById('image-preview');
   const previewImg = document.getElementById('preview-img');
   const closeBtn = document.getElementById('close-preview');
 
   if (preview && previewImg && closeBtn) {
-    // Ensure no stale "hidden" class blocks visibility
     preview.classList.remove('hidden');
 
     function openPreview(src) {
-      // Set src first (prevents flash as it fades in)
       previewImg.src = src;
-      // Lock scroll *before* showing to avoid width jump
       setScrollLock(true);
-      // Show modal (opacity/visibility handled in CSS)
       preview.classList.add('show');
     }
 
     function closePreview() {
-      // Hide modal immediately
       preview.classList.remove('show');
-      // After CSS fade-out, unlock scroll and clear src
-      // (match the CSS transition duration below: 300ms)
       setTimeout(() => {
         setScrollLock(false);
         previewImg.src = '';
-      }, 300);
+      }, 300); // match CSS transition duration
     }
 
-    // Click any gallery image to open
     document.querySelectorAll('.gallery-item img').forEach((img) => {
       img.addEventListener('click', () => openPreview(img.src));
     });
 
-    // Close button
     closeBtn.addEventListener('click', closePreview);
 
-    // Click on backdrop (but not on the image) to close
     preview.addEventListener('click', (e) => {
       if (e.target === preview) closePreview();
     });
 
-    // ESC to close
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && preview.classList.contains('show'))
         closePreview();
