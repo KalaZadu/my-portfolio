@@ -106,32 +106,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (preview && previewImg && closeBtn) {
     // Open preview function
+
     function openPreview(imgSrc) {
       previewImg.src = imgSrc;
       preview.classList.add('show');
 
-      // Lock main scroll
-      document.body.classList.add('modal-open'); // applies overflow:hidden
+      // Calculate scrollbar width dynamically
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty(
+        '--scrollbar-width',
+        `${scrollbarWidth}px`
+      );
+
+      // Lock page scroll
+      document.body.classList.add('modal-open');
+
       if (pageScrollWrapper) pageScrollWrapper.style.overflow = 'hidden';
     }
 
     // Close preview function
+
     function closePreview() {
       preview.classList.remove('show');
       previewImg.src = '';
 
-      // Unlock main scroll
+      // Unlock scroll
       document.body.classList.remove('modal-open');
+
       if (pageScrollWrapper) pageScrollWrapper.style.overflowY = 'scroll';
+      document.documentElement.style.setProperty('--scrollbar-width', `0px`);
     }
 
     // Open preview on gallery image click
     document.querySelectorAll('.gallery-item img').forEach((img) => {
-      img.addEventListener('click', () => openPreview(img.src));
+      img.addEventListener('click', () => {
+        openPreview(img.src);
+      });
     });
 
     // Close preview on button click
-    closeBtn.addEventListener('click', closePreview);
+    closeBtn.addEventListener('click', () => {
+      closePreview();
+    });
 
     // Close preview when clicking outside the image
     preview.addEventListener('click', (e) => {
