@@ -131,13 +131,15 @@ document.addEventListener('DOMContentLoaded', function () {
       preview.classList.remove('show');
       previewImg.src = '';
 
-      // Unlock scroll
-      document.body.classList.remove('modal-open');
-
+      // Unlock scroll smoothly
       if (pageScrollWrapper) pageScrollWrapper.style.overflowY = 'scroll';
+
+      // Trigger reflow to let transition apply
+      void document.body.offsetWidth;
+
+      document.body.classList.remove('modal-open');
       document.documentElement.style.setProperty('--scrollbar-width', `0px`);
     }
-
     // Open preview on gallery image click
     document.querySelectorAll('.gallery-item img').forEach((img) => {
       img.addEventListener('click', () => {
