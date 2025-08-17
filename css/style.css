@@ -66,6 +66,31 @@ body.no-scroll {
   overflow: hidden;
 }
 
+/* Scrollable wrapper for all page content */
+.page-scroll {
+  height: 100vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: thin;
+}
+
+.page-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.page-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.page-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+/* Lock scroll during preview without layout shift */
+body.modal-open {
+  overflow: hidden;
+  padding-right: var(--scrollbar-width, 0px);
+}
+
 /* NAVBAR BASE */
 .navbar {
   position: fixed;

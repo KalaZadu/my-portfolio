@@ -1,6 +1,6 @@
-// Wait for DOM content loaded
+// main.js
 document.addEventListener('DOMContentLoaded', function () {
-  // Helper: Calculate scrollbar width (used for locking scroll on modal/menu)
+  // ---------- Helper: Get scrollbar width ----------
   function getScrollbarWidth() {
     const scrollDiv = document.createElement('div');
     scrollDiv.style.visibility = 'hidden';
@@ -20,10 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return scrollbarWidth;
   }
 
-  // GSAP Animation Setup
+  // ---------- GSAP Hero Animations ----------
   gsap.registerPlugin(ScrollTrigger);
 
-  // Animate hero title
   gsap.from('.hero-title', {
     duration: 1.2,
     y: 50,
@@ -31,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
     ease: 'power3.out',
   });
 
-  // Animate hero subtitle with delay
   gsap.from('.hero-subtitle', {
     duration: 1.2,
     y: 50,
@@ -40,27 +38,26 @@ document.addEventListener('DOMContentLoaded', function () {
     ease: 'power3.out',
   });
 
-  // Navbar scroll background change
+  // ---------- Navbar Scroll + Mobile Menu ----------
   const navbar = document.querySelector('.navbar');
+  const menuToggle = document.getElementById('menu-toggle');
+  const navLinksEl = document.querySelector('.nav-links');
+
+  // Smooth navbar background + padding transition
   window.addEventListener('scroll', () => {
     if (!navbar) return;
     navbar.classList.toggle('scrolled', window.scrollY > 50);
   });
-
-  // Mobile Menu Toggle
-  const menuToggle = document.getElementById('menu-toggle');
-  const navLinksEl = document.querySelector('.nav-links');
 
   function openMobileNav() {
     if (!navLinksEl || !menuToggle) return;
     navLinksEl.classList.add('active');
     menuToggle.classList.add('open');
 
-    // Lock scroll and compensate for scrollbar
     const scrollbarWidth = getScrollbarWidth();
-    document.querySelector('.page-scroll').style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
 
-    // Animate nav links fade in
     gsap.fromTo(
       '.nav-links li',
       { y: -8, opacity: 0 },
@@ -73,23 +70,24 @@ document.addEventListener('DOMContentLoaded', function () {
     navLinksEl.classList.remove('active');
     menuToggle.classList.remove('open');
 
-    // Restore scroll
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
   }
 
-  // Toggle mobile menu on button click
   if (menuToggle && navLinksEl) {
     menuToggle.addEventListener('click', () => {
-      if (navLinksEl.classList.contains('active')) {
-        closeMobileNav();
-      } else {
-        openMobileNav();
-      }
+      navLinksEl.classList.contains('active')
+        ? closeMobileNav()
+        : openMobileNav();
+    });
+
+    navLinksEl.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => {
+        if (navLinksEl.classList.contains('active')) closeMobileNav();
+      });
     });
   }
 
-  // Close mobile nav on Escape key
   document.addEventListener('keydown', (e) => {
     if (
       e.key === 'Escape' &&
@@ -100,43 +98,50 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Close mobile nav when clicking a nav link
-  if (navLinksEl) {
-    navLinksEl.querySelectorAll('a').forEach((a) => {
-      a.addEventListener('click', () => {
-        if (navLinksEl.classList.contains('active')) closeMobileNav();
-      });
+  // ---------- Image Preview Modal ----------
+  const preview = document.getElementById('image-preview');
+  const previewImg = document.getElementById('preview-img');
+  const closeBtn = document.getElementById('close-preview');
+  const pageScrollWrapper = document.querySelector('.page-scroll'); // main scrollable wrapper
+
+  if (preview && previewImg && closeBtn) {
+    // Open preview function
+    function openPreview(imgSrc) {
+      previewImg.src = imgSrc;
+      preview.classList.add('show');
+
+      // Lock main scroll
+      document.body.classList.add('modal-open'); // applies overflow:hidden
+      if (pageScrollWrapper) pageScrollWrapper.style.overflow = 'hidden';
+    }
+
+    // Close preview function
+    function closePreview() {
+      preview.classList.remove('show');
+      previewImg.src = '';
+
+      // Unlock main scroll
+      document.body.classList.remove('modal-open');
+      if (pageScrollWrapper) pageScrollWrapper.style.overflowY = 'scroll';
+    }
+
+    // Open preview on gallery image click
+    document.querySelectorAll('.gallery-item img').forEach((img) => {
+      img.addEventListener('click', () => openPreview(img.src));
+    });
+
+    // Close preview on button click
+    closeBtn.addEventListener('click', closePreview);
+
+    // Close preview when clicking outside the image
+    preview.addEventListener('click', (e) => {
+      if (e.target === preview) closePreview();
+    });
+
+    // Optional: close with ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && preview.classList.contains('show'))
+        closePreview();
     });
   }
-
-  // Image Preview Modal Logic
-  const preview = document.getElementById('image-preview');
-const previewImg = document.getElementById('preview-img');
-const closePreview = document.getElementById('close-preview');
-const galleryItems = document.querySelectorAll('.gallery-item img');
-
-galleryItems.forEach((img) => {
-  img.addEventListener('click', () => {
-    previewImg.src = img.src;
-    preview.classList.add('show');          // show modal
-    document.body.style.overflow = 'hidden'; // lock background scroll
-  });
-});
-
-function closeModal() {
-  preview.classList.remove('show');        // hide modal
-  previewImg.src = '';
-  document.body.style.overflow = '';       // unlock scroll
-}
-
-closePreview.addEventListener('click', closeModal);
-
-// Close modal when clicking outside the image
-preview.addEventListener('click', (e) => {
-  if (e.target === preview) closeModal();
-});
-
-// Close modal with ESC key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && preview.classList.contains('show')) closeModal();
 });
