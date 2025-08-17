@@ -107,30 +107,52 @@ body::before {
   display: flex;
   gap: 2rem;
 }
-.nav-links li a {
-  font-size: 1rem;
-  font-weight: 500;
-  color: white;
+/* Navbar links */
+.nav-links li {
+  display: inline-block;
+  margin-left: 30px;
   position: relative;
-  transition: color 0.3s ease;
 }
+
+.nav-links li a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 500;
+  display: inline-block;
+  overflow: hidden; /* ensures the text doesn't overflow during transform */
+}
+
+.nav-links li a span {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Animated underline */
 .nav-links li a::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 50%;
+  left: 0;
   width: 100%;
   height: 2px;
   background-color: #00ff00;
-  transform: translateX(-50%) scaleX(0);
-  transform-origin: center;
-  transition: transform 0.3s ease;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
+
+/* Hover effect */
+.nav-links li a:hover span {
+  transform: translateY(-3px); /* lifts text */
+}
+
 .nav-links li a:hover::after {
-  width: 100%;
+  transform: scaleX(1); /* underline slides in */
 }
+
+/* Optional: change color on hover */
 .nav-links li a:hover {
-  color: #e0e0e0;
+  color: #00ff00;
 }
 
 /* Mobile menu toggle */
