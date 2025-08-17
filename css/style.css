@@ -15,7 +15,7 @@ body.modal-open {
   padding-right: var(--scrollbar-w, 0px);
 }
 
-/* Hide default scrollbars everywhere (so no white bar) */
+/* Hide default scrollbars everywhere */
 ::-webkit-scrollbar {
   width: 0px;
   height: 0px;
@@ -28,7 +28,7 @@ html {
 html,
 body {
   overflow-y: scroll;
-  background: #000;
+  background: #ffffff;
 }
 
 a {
@@ -51,12 +51,31 @@ ul {
   display: none;
 }
 
+/* ---- Top drop shadow / fade overlay ---- */
+/* Dynamic top shadow overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px; /* max height of the shadow */
+  pointer-events: none;
+  z-index: 900;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, var(--top-shadow-opacity, 0.8)),
+    rgba(0, 0, 0, 0)
+  );
+  transition: background 0.2s ease-out; /* smooth fade change */
+}
+
 /* ---- Navbar ---- */
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 999;
+  z-index: 1000; /* above overlay */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -156,7 +175,6 @@ ul {
   align-items: center;
   justify-content: center;
   height: 90vh;
-  background: #000;
   text-align: center;
   padding: 2rem;
 }

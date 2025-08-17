@@ -129,4 +129,13 @@ document.addEventListener('DOMContentLoaded', function () {
         closePreview();
     });
   }
+  // ---------- Dynamic top shadow ----------
+  const maxShadow = 1.0; // max opacity
+  const fadeHeight = 150; // pixels scrolled before full fade
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    let opacity = Math.min(scrollY / fadeHeight, 1) * maxShadow;
+    document.documentElement.style.setProperty('--top-shadow-opacity', opacity);
+  });
 });
