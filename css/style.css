@@ -6,14 +6,15 @@
 }
 
 /* Apply to both html and body */
-html, body {
+html,
+body {
   overflow-y: scroll; /* always reserve scrollbar space */
 }
 
 /* Hide scrollbar visually */
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-  width: 12px;           /* keep width to avoid layout jump */
+  width: 12px; /* keep width to avoid layout jump */
   background: transparent;
 }
 
@@ -46,7 +47,10 @@ body::before {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
 }
 
-html, body { background: #000; }
+html,
+body {
+  background: #000;
+}
 
 a {
   text-decoration: none;
@@ -57,11 +61,11 @@ ul {
   list-style: none;
 }
 
-
 /* NAVBAR BASE */
 .navbar {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   z-index: 999; /* above the top fade overlay */
   display: flex;
@@ -69,7 +73,6 @@ ul {
   align-items: center;
   padding: 2rem 4rem;
 
-*/
   /* smooth transitions */
   transition: background-color 0.3s ease, padding 0.3s ease,
     backdrop-filter 0.3s ease;
@@ -79,7 +82,6 @@ ul {
 .navbar.scrolled {
   background: rgba(10, 10, 10, 0);
   padding: 1rem 3rem;
-
 }
 
 /* LOGO */
@@ -448,4 +450,9 @@ footer {
 
 .footer-btn:hover {
   background-color: #111;
+}
+
+/* Prevent background scroll when preview is open */
+body.no-scroll {
+  overflow: hidden;
 }

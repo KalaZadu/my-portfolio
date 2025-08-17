@@ -151,3 +151,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+// Background scoll blocked when in Image Preview Mode
+document.addEventListener('DOMContentLoaded', () => {
+  const preview = document.querySelector('.preview');
+  const closeBtn = document.querySelector('.preview-close');
+
+  if (preview && closeBtn) {
+    // When preview is opened
+    preview.addEventListener('open', () => {
+      document.body.classList.add('no-scroll');
+    });
+
+    // When preview is closed
+    closeBtn.addEventListener('click', () => {
+      document.body.classList.remove('no-scroll');
+    });
+  }
+});
