@@ -102,48 +102,50 @@ document.addEventListener('DOMContentLoaded', function () {
   const preview = document.getElementById('image-preview');
   const previewImg = document.getElementById('preview-img');
   const closeBtn = document.getElementById('close-preview');
-  const pageScrollWrapper = document.querySelector('.page-scroll'); // main scrollable wrapper
+  const pageScrollWrapper = document.querySelector('.page-scroll'); // wrapper
 
   if (preview && previewImg && closeBtn) {
-    // Open preview function
+    function getScrollbarWidth() {
+      return window.innerWidth - document.documentElement.clientWidth;
+    }
 
     function openPreview(imgSrc) {
       previewImg.src = imgSrc;
       preview.classList.add('show');
 
       // Calculate scrollbar width dynamically
-      const scrollbarWidth =
-        window.innerWidth - document.documentElement.clientWidth;
+      const scrollbarWidth = getScrollbarWidth();
       document.documentElement.style.setProperty(
         '--scrollbar-width',
         `${scrollbarWidth}px`
       );
 
-      // Lock page scroll
+      // Lock body scroll
       document.body.classList.add('modal-open');
+
+      // Lock the page scroll wrapper (optional)
+      if (pageScrollWrapper) pageScrollWrapper.style.overflow = 'hidden';
     }
-    // Close preview function
 
     function closePreview() {
       preview.classList.remove('show');
       previewImg.src = '';
 
-      // Unlock scroll smoothly
-      // Trigger reflow for smooth transition
-      void document.body.offsetWidth;
-
+      // Unlock body scroll
       document.body.classList.remove('modal-open');
-      document.documentElement.style.setProperty('--scrollbar-width', `0px`);
+
+      // Restore wrapper scroll
+      if (pageScrollWrapper) pageScrollWrapper.style.overflow = 'scroll';
     }
 
-    // Open preview on gallery image click
+    // Open preview on image click
     document.querySelectorAll('.gallery-item img').forEach((img) => {
       img.addEventListener('click', () => {
         openPreview(img.src);
       });
     });
 
-    // Close preview on button click
+    // Close preview on close button
     closeBtn.addEventListener('click', () => {
       closePreview();
     });
