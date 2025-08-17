@@ -61,11 +61,15 @@ ul {
   list-style: none;
 }
 
+/* Prevent scroll when preview active */
+body.no-scroll {
+  overflow: hidden;
+}
+
 /* NAVBAR BASE */
 .navbar {
   position: fixed;
   top: 0;
-  left: 0;
   width: 100%;
   z-index: 999; /* above the top fade overlay */
   display: flex;

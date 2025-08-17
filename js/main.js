@@ -111,60 +111,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Image Preview Modal Logic
   const preview = document.getElementById('image-preview');
-  const previewImg = document.getElementById('preview-img');
-  const closeBtn = document.getElementById('close-preview');
+const previewImg = document.getElementById('preview-img');
+const closePreview = document.getElementById('close-preview');
+const galleryItems = document.querySelectorAll('.gallery-item img');
 
-  if (preview && previewImg) {
-    // Open image preview on gallery image click
-    document.querySelectorAll('.gallery-item img').forEach((img) => {
-      img.addEventListener('click', () => {
-        previewImg.src = img.src;
-        preview.classList.add('show');
-
-        // Lock scroll & compensate for scrollbar
-        const scrollbarWidth = getScrollbarWidth();
-        document.body.style.overflow = 'hidden';
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-      });
-    });
-
-    // Close preview on close button click
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        preview.classList.remove('show');
-        setTimeout(() => {
-          document.body.style.overflow = '';
-          document.body.style.paddingRight = '';
-        }, 500); // Match CSS fade duration
-      });
-    }
-
-    // Close preview when clicking outside the image
-    preview.addEventListener('click', (e) => {
-      if (e.target === preview) {
-        preview.classList.remove('show');
-        setTimeout(() => {
-          document.body.style.overflow = '';
-          document.body.style.paddingRight = '';
-        }, 500);
-      }
-    });
-  }
+galleryItems.forEach((img) => {
+  img.addEventListener('click', () => {
+    previewImg.src = img.src;
+    preview.classList.add('show');          // show modal
+    document.body.style.overflow = 'hidden'; // lock background scroll
+  });
 });
-// Background scoll blocked when in Image Preview Mode
-document.addEventListener('DOMContentLoaded', () => {
-  const preview = document.querySelector('.preview');
-  const closeBtn = document.querySelector('.preview-close');
 
-  if (preview && closeBtn) {
-    // When preview is opened
-    preview.addEventListener('open', () => {
-      document.body.classList.add('no-scroll');
-    });
+function closeModal() {
+  preview.classList.remove('show');        // hide modal
+  previewImg.src = '';
+  document.body.style.overflow = '';       // unlock scroll
+}
 
-    // When preview is closed
-    closeBtn.addEventListener('click', () => {
-      document.body.classList.remove('no-scroll');
-    });
-  }
+closePreview.addEventListener('click', closeModal);
+
+// Close modal when clicking outside the image
+preview.addEventListener('click', (e) => {
+  if (e.target === preview) closeModal();
+});
+
+// Close modal with ESC key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && preview.classList.contains('show')) closeModal();
 });
