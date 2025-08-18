@@ -2,15 +2,12 @@
 document.addEventListener('DOMContentLoaded', function () {
   // ---------- Helpers ----------
   function getRuntimeScrollbarWidth() {
-    // Measures current scrollbar width
     return window.innerWidth - document.documentElement.clientWidth;
   }
 
   function setScrollLock(lock) {
-    // Write CSS variable first (prevents flick)
     const w = getRuntimeScrollbarWidth();
     document.documentElement.style.setProperty('--scrollbar-w', w + 'px');
-
     if (lock) {
       document.body.classList.add('modal-open');
     } else {
@@ -19,24 +16,25 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // ---------- GSAP Hero Animations ----------
+  // ---------- GSAP Global Page Reveal ----------
   if (window.gsap) {
     try {
       if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
-      gsap.from('.hero-title', {
-        duration: 1.2,
-        y: 50,
-        opacity: 0,
+
+      // Animate all visible children inside <main> (or body if no main)
+      const pageContent = document.querySelectorAll(
+        'main > * , body > section, body > header, body > footer'
+      );
+      gsap.from(pageContent, {
+        duration: 1,
+        y: 100, // move upward from below viewport
+        opacity: 0, // fade in
+        stagger: 0.15, // each element comes one after another
         ease: 'power3.out',
       });
-      gsap.from('.hero-subtitle', {
-        duration: 1.2,
-        y: 50,
-        opacity: 0,
-        delay: 0.3,
-        ease: 'power3.out',
-      });
-    } catch (e) {}
+    } catch (e) {
+      console.error('GSAP error:', e);
+    }
   }
 
   // ---------- Navbar scroll state ----------
@@ -105,34 +103,30 @@ document.addEventListener('DOMContentLoaded', function () {
       setScrollLock(true);
       preview.classList.add('show');
     }
-
     function closePreview() {
       preview.classList.remove('show');
       setTimeout(() => {
         setScrollLock(false);
         previewImg.src = '';
-      }, 300); // match CSS transition duration
+      }, 300);
     }
 
     document.querySelectorAll('.gallery-item img').forEach((img) => {
       img.addEventListener('click', () => openPreview(img.src));
     });
-
     closeBtn.addEventListener('click', closePreview);
-
     preview.addEventListener('click', (e) => {
       if (e.target === preview) closePreview();
     });
-
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && preview.classList.contains('show'))
         closePreview();
     });
   }
-  // ---------- Dynamic top shadow ----------
-  const maxShadow = 1.0; // max opacity
-  const fadeHeight = 150; // pixels scrolled before full fade
 
+  // ---------- Dynamic top shadow ----------
+  const maxShadow = 1.0;
+  const fadeHeight = 150;
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     let opacity = Math.min(scrollY / fadeHeight, 1) * maxShadow;
