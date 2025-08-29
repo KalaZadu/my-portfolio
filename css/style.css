@@ -251,32 +251,6 @@ body::before {
   background: #e63946;
 }
 
-/* Featured Works */
-.featured-works {
-  padding: 4rem 2rem;
-  text-align: center;
-}
-.featured-works h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-.works-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2rem;
-}
-.work-item img {
-  width: 100%;
-  border-radius: 8px;
-}
-.work-item h3 {
-  margin-top: 0.8rem;
-  font-size: 1.2rem;
-}
-.work-item p {
-  color: #555;
-}
-
 /* Gallery */
 .gallery {
   max-width: 1600px;
