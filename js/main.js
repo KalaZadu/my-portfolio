@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Animate image from grid to modal
     gsap.to(previewImg, {
-      duration: 0.6,
+      duration: 0.4,
       top: window.innerHeight / 2,
       left: window.innerWidth / 2,
       xPercent: -50,
@@ -103,14 +103,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Animate image back to grid position
     const rect = activeImage.getBoundingClientRect();
     gsap.to(previewImg, {
-      duration: 0.6,
+      duration: 0.4,
       top: rect.top,
       left: rect.left,
       xPercent: 0,
       yPercent: 0,
       width: rect.width,
       height: rect.height,
-      ease: 'power4.inOut',
+      ease: 'power4.out',
       onComplete: () => {
         preview.classList.remove('active');
         previewImg.src = '';

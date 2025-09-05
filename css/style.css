@@ -54,6 +54,7 @@ body {
   align-items: center;
   z-index: 1000;
 }
+
 .logo-img {
   height: 80px;
   transition: transform 0.3s ease-out;
@@ -61,6 +62,7 @@ body {
 .logo-img:hover {
   transform: scale(1.2);
 }
+
 .nav-links {
   display: flex;
   gap: 2rem;
@@ -129,7 +131,7 @@ body {
 }
 
 /* =========================================
-   Hero
+   Hero Section
 ========================================= */
 .hero {
   height: 100vh;
@@ -141,32 +143,63 @@ body {
   font-size: clamp(2rem, 8vw, 6rem);
   font-weight: 100;
   text-align: center;
-  opacity: 0; /* hidden by default */
-  transform: translateY(50px); /* same offset as GSAP start */
+  opacity: 0; /* hidden by default, animated via GSAP */
+  transform: translateY(50px);
 }
 
 /* =========================================
-   Gallery
+   Gallery Section - Dynamic Grid
 ========================================= */
+/* =========================================
+   Gallery Section - Masonry-like Grid
+========================================= */
+:root {
+  --gallery-gap: 1.5rem; /* gap between items */
+}
+
 .gallery {
   padding: 4rem 2%;
 }
+
 .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: 1.5rem;
+  column-count: 3; /* 3 columns */
+  column-gap: var(--gallery-gap);
 }
+
 .gallery-item {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: var(--gallery-gap); /* row gap */
   cursor: pointer;
   overflow: hidden;
 }
+
 .gallery-item img {
   width: 100%;
+  height: auto;
   display: block;
-  transition: transform 0.5s ease, opacity 0.5s ease;
+  transition: transform 0.3s ease;
+  object-fit: cover;
 }
+
 .gallery-item img:hover {
   transform: scale(1.05);
+}
+
+/* =========================================
+   Responsive Gallery
+   - Adjust number of columns for different screen sizes
+========================================= */
+@media (max-width: 1200px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* =========================================
@@ -178,16 +211,17 @@ body {
   left: 0;
   width: 100%;
   height: 100vh;
-  display: none;
+  display: none; /* hidden by default */
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0); /* animated via GSAP */
   z-index: 2000;
   overflow: hidden;
 }
 #image-preview.active {
   display: flex;
 }
+
 .preview-content {
   position: relative;
   max-width: 95%;
@@ -197,11 +231,12 @@ body {
   width: auto;
   height: auto;
   border-radius: 12px;
-  opacity: 0;
+  opacity: 0; /* animated via GSAP */
   position: fixed;
   top: 0;
   left: 0;
 }
+
 #close-preview {
   position: fixed;
   top: 20px;
