@@ -67,29 +67,54 @@ body {
   display: flex;
   gap: 2rem;
 }
-.nav-links li a {
+/* =========================================
+   Navbar Links Hover Animation (Dual Span Trick)
+   ========================================= */
+
+/* Each nav item is positioned relative so spans can animate inside */
+.nav-links li {
   position: relative;
-  font-size: 1rem;
-  font-weight: 500;
+  overflow: hidden; /* ensures spans don’t spill outside */
 }
-.nav-links li a span {
-  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+
+/* Main link styling */
+.nav-anim {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.2rem; /* adjust text size */
+  font-weight: 100;
+  color: #fff; /* nav text color */
+  overflow: hidden; /* keeps sliding spans contained */
+  padding: 0px 4px; /* space around text */
 }
-.nav-links li a::after {
-  content: attr(data-replace);
+
+/* First span (default visible) */
+.nav-anim span {
+  display: block;
+  /* Smooth easing: cubic-bezier(0.19, 1, 0.22, 1) = "expo out" feel */
+  transition: transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Second span (hidden below initially) */
+.nav-anim span + span {
   position: absolute;
-  top: 0;
+  color: coral;
   left: 0;
-  width: 100%;
-  transform: translateY(200%);
-  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
-  pointer-events: none;
+  top: 140%; /* sits just below the first span */
+  transform-origin: left center; /* pivot point for skew */
+  transform: skewY(30deg); /* gives angled entry before straightening */
+  transition: transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.nav-links li a:hover span {
-  transform: translateY(-200%);
+
+/* Hover effect - first span moves up & skews */
+.nav-anim:hover span:first-child {
+  transform: translateY(-140%) skewY(7deg);
 }
-.nav-links li a:hover::after {
-  transform: translateY(0);
+
+/* Hover effect - second span slides up into place */
+.nav-anim:hover span + span {
+  transform: translateY(-140%) skewY(0deg);
 }
 
 /* Mobile menu */

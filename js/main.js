@@ -1,15 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
   // ==========================
-  // FORCE PAGE TO TOP
+  // FORCE PAGE TO TOP (with smooth scroll fix)
   // ==========================
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.scrollTo(0, 0);
+
+  // Disable smooth scroll temporarily for instant scroll
+  document.documentElement.style.scrollBehavior = 'auto';
+
+  const scrollToTop = () => window.scrollTo(0, 0);
+
+  // Use requestAnimationFrame to make sure browser applied scroll restoration
+  requestAnimationFrame(scrollToTop);
+
+  // Also force on load
+  window.addEventListener('load', () => {
+    requestAnimationFrame(scrollToTop);
+
+    // Restore smooth scroll after load
+    setTimeout(() => {
+      document.documentElement.style.scrollBehavior = 'smooth';
+    }, 50);
+  });
+
+  // Also handle back/forward navigation
   window.addEventListener('pageshow', (e) => {
     if (
       e.persisted ||
       performance.getEntriesByType('navigation')[0]?.type === 'back_forward'
     ) {
-      window.scrollTo(0, 0);
+      requestAnimationFrame(scrollToTop);
     }
   });
 
@@ -48,10 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function openPreview(img) {
     activeImage = img;
 
-    // Capture grid image rect
     const rect = img.getBoundingClientRect();
 
-    // Set previewImg initial state
     previewImg.src = img.src;
     previewImg.style.position = 'fixed';
     previewImg.style.top = rect.top + 'px';
@@ -64,11 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
     previewImg.style.objectFit = 'contain';
     previewImg.style.borderRadius = '8px';
 
-    // Show overlay
     preview.classList.add('active');
     document.body.style.overflow = 'hidden';
 
-    // Calculate modal target size (90% of viewport)
     const viewportW = window.innerWidth * 0.9;
     const viewportH = window.innerHeight * 0.9;
     const aspect = img.naturalWidth / img.naturalHeight;
@@ -81,10 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
       targetH = targetW / aspect;
     }
 
-    // Animate overlay fade in
     gsap.to(preview, { duration: 0.3, backgroundColor: 'rgba(0,0,0,0.9)' });
 
-    // Animate image from grid to modal
     gsap.to(previewImg, {
       duration: 0.4,
       top: window.innerHeight / 2,
@@ -100,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function closePreview() {
     if (!activeImage) return;
 
-    // Animate image back to grid position
     const rect = activeImage.getBoundingClientRect();
     gsap.to(previewImg, {
       duration: 0.4,
@@ -119,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     });
 
-    // Animate overlay fade out
     gsap.to(preview, { duration: 0.6, backgroundColor: 'rgba(0,0,0,0)' });
   }
 
@@ -137,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closePreview();
   });
 
-  // Close modal on scroll
   window.addEventListener(
     'wheel',
     (e) => {
