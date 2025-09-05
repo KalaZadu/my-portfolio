@@ -4,16 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MZK Style Portfolio</title>
-    <!-- Force scroll to top immediately -->
-    <script>
-      if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-      }
-      // Immediately scroll to top before anything renders
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      window.scrollTo(0, 0);
-    </script>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="assets/favicon.ico" />
   </head>
@@ -41,9 +31,7 @@
         </li>
       </ul>
       <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </button>
     </header>
 
@@ -95,8 +83,10 @@
 
     <!-- Image Preview Modal -->
     <div id="image-preview">
-      <span id="close-preview">&times;</span>
-      <img id="preview-img" src="" alt="Preview" />
+      <div class="preview-content">
+        <img id="preview-img" src="" alt="Preview" />
+        <span id="close-preview">&times;</span>
+      </div>
     </div>
 
     <!-- Footer -->
